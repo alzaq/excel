@@ -166,9 +166,9 @@
 //            }
         ],
         stretchH: 'all',
-        width: 1170,
+//        width: 1170,
         autoWrapRow: true,
-        height: 441,
+//        height: 441,
         maxRows: 22,
         rowHeaders: true,
         colHeaders: [
