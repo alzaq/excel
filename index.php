@@ -12,13 +12,16 @@
         padding: 0;
     }
 
+    h1 {
+        text-align: center;
+    }
     #sheet {
-        width: 100%;
-        background: red;
+        margin: 50px auto;
     }
 
 
 </style>
+<h1>Novej systém</h1>
 <div id="sheet"></div>
 <script>
     var currencyCodes = ['EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'SEK', 'NOK', 'BRL', 'CNY', 'RUB', 'INR', 'TRY', 'THB', 'IDR', 'MYR', 'MXN', 'ARS', 'DKK', 'ILS', 'PHP'];
@@ -110,7 +113,7 @@
             { data: 'date_to', type: 'date', dateFormat: 'MM/DD/YYYY'},
             { data: 'date_in', type: 'date', dateFormat: 'MM/DD/YYYY'},
             { data: 'date_out', type: 'date', dateFormat: 'MM/DD/YYYY'},
-            { data: 'bill_week', type: 'numeric', width: 40 },
+            { data: 'bill_week', type: 'numeric'},
             { data: 'company', type: 'text' },
             { data: 'name', type: 'text' },
             { data: 'phone', type: 'text' },
@@ -163,7 +166,10 @@
 //            }
         ],
         stretchH: 'all',
+        width: 1170,
         autoWrapRow: true,
+        height: 441,
+        maxRows: 22,
         rowHeaders: true,
         colHeaders: [
             'Datum od',
