@@ -27,7 +27,7 @@
     <link type="text/css" rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css" />
     <link type="text/css" rel="stylesheet" href="libraries/datetimepicker/css/bootstrap-datetimepicker.min.css" />
     
-    <link type="text/css" rel="stylesheet" href="template/main.css" />
+    <link type="text/css" rel="stylesheet" href="template/main.csas" />
     <link type="text/css" rel="stylesheet" href="template/style.css" />
     
     <link rel="shortcut icon" href="template/favicon.png">
@@ -57,7 +57,16 @@
     <div class="container">
 
         <div class="navbar-pull-left">
-            <a href="?" title="Domů" class="btn btn-default" role="button">
+            <a id="btnRefresh" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-refresh"></span></a>            
+            <span class="navbar-divider"></span>
+            <a id="btnSave" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+            <span class="navbar-divider"></span>
+            <a id="btnUndo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a id="btnRedo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
+
+
+
+            <!--<a href="?" title="Domů" class="btn btn-default" role="button">
                 <span class="glyphicon glyphicon-home"></span>
             </a>
             <span class="navbar-divider"></span>
@@ -70,7 +79,7 @@
             </a>
             <a href="?date={$datePlus}" title="Následující týden" class="btn btn-default" role="button">
                 <span class="glyphicon glyphicon-triangle-right"></span>
-            </a>
+            </a>-->
         </div>
 <div class="navbar-pull-right dropdown">
     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuRight" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -122,17 +131,7 @@
 </nav>
 
 
-
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-12">
-            <h2 class="own-color">{$date.name} {$date.date|date_format:"%e.%-m.%Y"}</h2>
-        </div>        
-    </div>
-
-
-<div id="sheet"></div>
+<div id="sheet" style="margin-top: 65px;"></div>
 
 <div id="modal-div"></div>
 
@@ -212,27 +211,6 @@
                 ic: 1282483,
                 email: "Email",
                 note: "poznámka"
-            },
-            {
-                date_from: '',
-                date_to: '',
-                date_in: '',
-                date_out: '',
-                bill_week: 14,
-                company: "",
-                name: "",
-                phone: "",
-                period: 12,
-                man_in: "",
-                man_out: "",
-                type: "",
-                type_true: "",
-                city: "",
-                trace: "",
-                price: 1200,
-                ic: 1282483,
-                email: "",
-                note: ""
             }
         ],
         columns: [
@@ -323,9 +301,20 @@
         sortIndicator: true,
         autoColumnSize: {
             samplingRatio: 23
-        }
+        },
+        minSpareRows: 1
     };
     var hot = new Handsontable(hotElement, hotSettings);
+
+
+    $('#btnUndo').click(function() {
+        hot.undo();
+    });
+
+    $('#btnRedo').click(function() {
+        hot.redo();
+    });
+
 </script>
 
 </body>
