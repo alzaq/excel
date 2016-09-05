@@ -309,10 +309,12 @@
 
     $('#btnUndo').click(function() {
         hot.undo();
+        return false;
     });
 
     $('#btnRedo').click(function() {
         hot.redo();
+        return false;
     });
 
 </script>
