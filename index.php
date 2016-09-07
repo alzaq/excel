@@ -58,12 +58,38 @@
     <div class="container">
 
         <div class="navbar-pull-left">
-            <a id="btnRefresh" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-refresh"></span></a>            
+
+            <a id="btnRefresh" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-refresh"></span></a>
+
             <span class="navbar-divider"></span>
-            <a id="btnSave" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Krátkodobé
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Dlouhodové
+                </label>
+            </div>
+
             <span class="navbar-divider"></span>
-            <a id="btnUndo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>
-            <a id="btnRedo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>
+
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Aktuální
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Archiv
+                </label>
+            </div>
+
+
+            <!--            <a id="btnRefresh" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-refresh"></span></a>            -->
+<!--            <span class="navbar-divider"></span>-->
+<!--            <a id="btnSave" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-floppy-disk"></span></a>-->
+<!--            <span class="navbar-divider"></span>-->
+<!--            <a id="btnUndo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-left"></span></a>-->
+<!--            <a id="btnRedo" href="#" title="Domů" class="btn btn-default" role="button"><span class="glyphicon glyphicon-chevron-right"></span></a>-->
 
 
 
@@ -206,37 +232,6 @@
         { data: 'ic', type: 'numeric' },
         { data: 'email', type: 'text' },
         { data: 'note', type: 'text' }
-//            {
-//                data: 'flag',
-//                renderer: flagRenderer
-//            },
-//            {
-//                data: 'currencyCode',
-//                type: 'text'
-//            },
-//            {
-//                data: 'currency',
-//                type: 'text'
-//            },
-//            {
-//                data: 'level',
-//                type: 'numeric',
-//                format: '0.0000'
-//            },
-//            {
-//                data: 'units',
-//                type: 'text'
-//            },
-//            {
-//                data: 'asOf',
-//                type: 'date',
-//                dateFormat: 'MM/DD/YYYY'
-//            },
-//            {
-//                data: 'onedChng',
-//                type: 'numeric',
-//                format: '0.00%'
-//            }
     ];
 
     var hotSettings = {
