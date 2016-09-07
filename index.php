@@ -284,7 +284,7 @@
 
                 var key = database[rowIndex]['key'];
 
-                if (key == "null") {
+                if (key == null || key == "null" || key == "undefined" || key == undefined) {
                     key = firebase.database().ref().child('kratkodobe').push().key;
                 }
 
