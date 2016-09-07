@@ -33,6 +33,7 @@
     <link rel="shortcut icon" href="template/favicon.png">
 
     <title>České mobilní toalety | Evidenční software</title>
+
 </head>
 <body>
 <style type="text/css">
@@ -135,21 +136,30 @@
 
 <div id="modal-div"></div>
 
-<script type="text/javascript">
-    
-    {foreach $messages as $message}
-    createMessage("{$message.text}", {$message.type});
-    {/foreach}
-
-</script>
-
 <h5 id="copyright">Vytvořil AB 2015. Co vy na to?</h5>
 
 </body>
 
 </html>
 
+<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCcs9kL-BkTa3QB-hP1M2JI2rCbtgZiM7o",
+        authDomain: "toalety-26a3f.firebaseapp.com",
+        databaseURL: "https://toalety-26a3f.firebaseio.com",
+        storageBucket: "toalety-26a3f.appspot.com",
+    };
+    firebase.initializeApp(config);
+
+
+</script>
+
+<script>
+
+    var database = [];
+
     var currencyCodes = ['EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'SEK', 'NOK', 'BRL', 'CNY', 'RUB', 'INR', 'TRY', 'THB', 'IDR', 'MYR', 'MXN', 'ARS', 'DKK', 'ILS', 'PHP'];
     var flagRenderer = function(instance, td, row, col, prop, value, cellProperties) {
         var currencyCode = value;
@@ -168,76 +178,34 @@
     var hotElement = document.querySelector('#sheet');
     var hotElementContainer = hotElement.parentNode;
 
-    var hotSettings = {
-        data: [
-            {
-                date_from: '08/19/2015',
-                date_to: '08/19/2015',
-                date_in: '08/19/2015',
-                date_out: '08/19/2015',
-                bill_week: 14,
-                company: "Firma",
-                name: "Jméno",
-                phone: "721 342 282",
-                period: 12,
-                man_in: "Horák",
-                man_out: "Horák",
-                type: "typ",
-                type_true: "skutecny",
-                city: "Mesto",
-                trace: "Popis",
-                price: 1200,
-                ic: 1282483,
-                email: "Email",
-                note: "poznámka"
-            },
-            {
-                date_from: '08/19/2015',
-                date_to: '08/19/2015',
-                date_in: '08/19/2015',
-                date_out: '08/19/2015',
-                bill_week: 14,
-                company: "Firma",
-                name: "Jméno",
-                phone: "721 342 282",
-                period: 12,
-                man_in: "Horák",
-                man_out: "Horák",
-                type: "typ",
-                type_true: "skutecny",
-                city: "Mesto",
-                trace: "Popis",
-                price: 1200,
-                ic: 1282483,
-                email: "Email",
-                note: "poznámka"
-            }
-        ],
-        columns: [
-            { data: 'date_from', type: 'date', dateFormat: 'MM/DD/YYYY'},
-            { data: 'date_to', type: 'date', dateFormat: 'MM/DD/YYYY'},
-            { data: 'date_in', type: 'date', dateFormat: 'MM/DD/YYYY'},
-            { data: 'date_out', type: 'date', dateFormat: 'MM/DD/YYYY'},
-            { data: 'bill_week', type: 'numeric'},
-            { data: 'company', type: 'text' },
-            { data: 'name', type: 'text' },
-            { data: 'phone', type: 'text' },
-            { data: 'period', type: 'numeric' },
-            {data: 'man_in',
-                editor: 'select',
-                selectOptions: ['Horák', 'Bob', 'Alzaq']
-            }, { data: 'man_out',
-                editor: 'select',
-                selectOptions: ['Horák', 'Bob', 'Alzaq']
-            },
-            { data: 'type', type: 'text' },
-            { data: 'type_true', type: 'text' },
-            { data: 'city', type: 'text' },
-            { data: 'trace', type: 'text' },
-            { data: 'price', type: 'numeric' },
-            { data: 'ic', type: 'numeric' },
-            { data: 'email', type: 'text' },
-            { data: 'note', type: 'text' }
+    var columns = [
+        { data: 'date_from', type: 'date', dateFormat: 'MM/DD/YYYY'},
+        { data: 'date_to', type: 'date', dateFormat: 'MM/DD/YYYY'},
+        { data: 'date_in', type: 'date', dateFormat: 'MM/DD/YYYY'},
+        { data: 'date_out', type: 'date', dateFormat: 'MM/DD/YYYY'},
+        { data: 'bill_week', type: 'numeric'},
+        { data: 'company', type: 'text' },
+        { data: 'name', type: 'text' },
+        { data: 'phone', type: 'text' },
+        { data: 'period', type: 'numeric' },
+        {
+            data: 'man_in',
+            editor: 'select',
+            selectOptions: ['Horák', 'Bob', 'Alzaq']
+        },
+        {
+            data: 'man_out',
+            editor: 'select',
+            selectOptions: ['Horák', 'Bob', 'Alzaq']
+        },
+        { data: 'type', type: 'text' },
+        { data: 'type_true', type: 'text' },
+        { data: 'city', type: 'text' },
+        { data: 'trace', type: 'text' },
+        { data: 'price', type: 'numeric' },
+        { data: 'ic', type: 'numeric' },
+        { data: 'email', type: 'text' },
+        { data: 'note', type: 'text' }
 //            {
 //                data: 'flag',
 //                renderer: flagRenderer
@@ -269,10 +237,14 @@
 //                type: 'numeric',
 //                format: '0.00%'
 //            }
-        ],
+    ];
+
+    var hotSettings = {
+        data: [],
+        columns: columns,
         stretchH: 'all',
   //      width: 1140,
-        autoWrapRow: true,
+//        autoWrapRow: true,
 //        height: 441,
         maxRows: 22,
         rowHeaders: true,
@@ -300,11 +272,59 @@
         columnSorting: true,
         sortIndicator: true,
         autoColumnSize: {
-            samplingRatio: 23
+            samplingRatio: 40
         },
-        minSpareRows: 1
+        minSpareRows: 1,
+        afterChange: function (changes, source) {
+
+            if (changes != null) {
+
+                var rowIndex = changes[0][0];
+                var row = hot.getDataAtRow(rowIndex);
+
+                var key = database[rowIndex]['key'];
+
+                if (key == "null") {
+                    key = firebase.database().ref().child('kratkodobe').push().key;
+                }
+
+                var updates = {};
+
+                for (var i = 0; i < columns.length; i++) {
+                    var columnName = columns[i]['data'];
+                    updates['/kratkodobe/' + key + "/" + columnName] = row[i];
+                }
+
+                firebase.database().ref().update(updates);
+            }
+
+        }
     };
     var hot = new Handsontable(hotElement, hotSettings);
+
+
+
+    var starCountRef = firebase.database().ref('kratkodobe');
+    starCountRef.on('value', function(snapshot) {
+
+        database = [];
+
+        var data = snapshot.val();
+
+        var rowIndex = 0;
+        for (var key in data) {
+            var row = data[key];
+            row['row'] = rowIndex;
+            row['key'] = key;
+            database.push(row);
+
+            rowIndex++;
+        }
+
+        hot.loadData(database);
+
+    });
+
 
 
     $('#btnUndo').click(function() {
