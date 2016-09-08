@@ -20,8 +20,6 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 
-    <script type="text/javascript" src="scriptes/backend.js"></script>
-
     <link type="text/css" rel="stylesheet" href="libraries/ui/ui.css" />
     <link type="text/css" rel="stylesheet" href="libraries/bootstrap/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme.min.css" />
@@ -63,12 +61,12 @@
 
             <span class="navbar-divider"></span>
 
-            <div class="btn-group" data-toggle="buttons">
+            <div class="btn-group" data-toggle="buttons" id="buttonType">
                 <label class="btn btn-default active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Krátkodobé
+                    <input type="radio" name="typ" id="option1" autocomplete="off" value="kratkodobe" checked> Krátkodobé
                 </label>
                 <label class="btn btn-default">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Dlouhodové
+                    <input type="radio" name="typ" id="option2" autocomplete="off" value="dlouhodobe"> Dlouhodové
                 </label>
             </div>
 
@@ -76,10 +74,10 @@
 
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Aktuální
+                    <input type="radio" name="archiv" id="option1" autocomplete="off" value="aktualni" checked> Aktuální
                 </label>
                 <label class="btn btn-default">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Archiv
+                    <input type="radio" name="archiv" id="option2" autocomplete="off" value="archiv"> Archiv
                 </label>
             </div>
 
@@ -168,171 +166,7 @@
 
 </html>
 
-<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCcs9kL-BkTa3QB-hP1M2JI2rCbtgZiM7o",
-        authDomain: "toalety-26a3f.firebaseapp.com",
-        databaseURL: "https://toalety-26a3f.firebaseio.com",
-        storageBucket: "toalety-26a3f.appspot.com",
-    };
-    firebase.initializeApp(config);
-
-
-</script>
-
-<script>
-
-    var database = [];
-
-    var currencyCodes = ['EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'SEK', 'NOK', 'BRL', 'CNY', 'RUB', 'INR', 'TRY', 'THB', 'IDR', 'MYR', 'MXN', 'ARS', 'DKK', 'ILS', 'PHP'];
-    var flagRenderer = function(instance, td, row, col, prop, value, cellProperties) {
-        var currencyCode = value;
-        while (td.firstChild) {
-            td.removeChild(td.firstChild);
-        }
-        if (currencyCodes.indexOf(currencyCode) > -1) {
-            var flagElement = document.createElement('DIV');
-            flagElement.className = 'flag ' + currencyCode.toLowerCase();
-            td.appendChild(flagElement);
-        } else {
-            var textNode = document.createTextNode(value === null ? '' : value);
-            td.appendChild(textNode);
-        }
-    };
-    var hotElement = document.querySelector('#sheet');
-    var hotElementContainer = hotElement.parentNode;
-
-    var columns = [
-        { data: 'date_from', type: 'date', dateFormat: 'MM/DD/YYYY'},
-        { data: 'date_to', type: 'date', dateFormat: 'MM/DD/YYYY'},
-        { data: 'date_in', type: 'date', dateFormat: 'MM/DD/YYYY'},
-        { data: 'date_out', type: 'date', dateFormat: 'MM/DD/YYYY'},
-        { data: 'bill_week', type: 'numeric'},
-        { data: 'company', type: 'text' },
-        { data: 'name', type: 'text' },
-        { data: 'phone', type: 'text' },
-        { data: 'period', type: 'numeric' },
-        {
-            data: 'man_in',
-            editor: 'select',
-            selectOptions: ['Horák', 'Bob', 'Alzaq']
-        },
-        {
-            data: 'man_out',
-            editor: 'select',
-            selectOptions: ['Horák', 'Bob', 'Alzaq']
-        },
-        { data: 'type', type: 'text' },
-        { data: 'type_true', type: 'text' },
-        { data: 'city', type: 'text' },
-        { data: 'trace', type: 'text' },
-        { data: 'price', type: 'numeric' },
-        { data: 'ic', type: 'numeric' },
-        { data: 'email', type: 'text' },
-        { data: 'note', type: 'text' }
-    ];
-
-    var hotSettings = {
-        data: [],
-        columns: columns,
-        stretchH: 'all',
-  //      width: 1140,
-//        autoWrapRow: true,
-//        height: 441,
-        maxRows: 22,
-        rowHeaders: true,
-        colHeaders: [
-            'Datum od',
-            'Datum do',
-            'Závoz',
-            'Odvoz',
-            'Fakturováno',
-            'Firma',
-            'Jméno',
-            'Telefon',
-            'Perioda',
-            'Zavezl',
-            'Odvezl',
-            'Typ',
-            'Typ skutečný',
-            'Město',
-            'Popis trasy',
-            'Cena',
-            'IČ',
-            'Email',
-            'Poznámka'
-        ],
-        columnSorting: true,
-        sortIndicator: true,
-        autoColumnSize: {
-            samplingRatio: 40
-        },
-        minSpareRows: 1,
-        afterChange: function (changes, source) {
-
-            if (changes != null) {
-
-                var rowIndex = changes[0][0];
-                var row = hot.getDataAtRow(rowIndex);
-
-                var key = database[rowIndex]['key'];
-
-                if (key == null || key == "null" || key == "undefined" || key == undefined) {
-                    key = firebase.database().ref().child('kratkodobe').push().key;
-                }
-
-                var updates = {};
-
-                for (var i = 0; i < columns.length; i++) {
-                    var columnName = columns[i]['data'];
-                    updates['/kratkodobe/' + key + "/" + columnName] = row[i];
-                }
-
-                firebase.database().ref().update(updates);
-            }
-
-        }
-    };
-    var hot = new Handsontable(hotElement, hotSettings);
-
-
-
-    var starCountRef = firebase.database().ref('kratkodobe');
-    starCountRef.on('value', function(snapshot) {
-
-        database = [];
-
-        var data = snapshot.val();
-
-        var rowIndex = 0;
-        for (var key in data) {
-            var row = data[key];
-            row['row'] = rowIndex;
-            row['key'] = key;
-            database.push(row);
-
-            rowIndex++;
-        }
-
-        hot.loadData(database);
-
-    });
-
-
-
-    $('#btnUndo').click(function() {
-        hot.undo();
-        return false;
-    });
-
-    $('#btnRedo').click(function() {
-        hot.redo();
-        return false;
-    });
-
-</script>
-
+<script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+<script type="text/javascript" src="scripts/main.js"></script>
 </body>
 </html>
