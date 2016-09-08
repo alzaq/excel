@@ -160,7 +160,7 @@
 
 <div id="modal-div"></div>
 
-<h5 id="copyright">Vytvořil AB 2015. Co vy na to?</h5>
+<h5 id="copyright">Hej! Vytvořil AB 2016. Co vy na to?</h5>
 
 </body>
 
