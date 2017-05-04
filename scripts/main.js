@@ -37,6 +37,7 @@ $(document).ready(function() {
             'Email',
             'Poznámka',
             'Linka',
+            'Vybrat hotovost',
         ],
         columns: [
             { data: 'date_from', type: 'date', dateFormat: 'MM/DD/YYYY'},
@@ -59,7 +60,8 @@ $(document).ready(function() {
             { data: 'rc', type: 'numeric' },
             { data: 'email', type: 'text' },
             { data: 'note', type: 'text' },
-            { data: 'line', editor: 'select', selectOptions: ['Linka 1', 'Linka 2', 'Linka 3', 'Linka 4', 'Linka 5', 'Linka 6'] },
+            { data: 'line', editor: 'select', selectOptions: ['Hory', 'Praha východ', 'Hradec Králové', 'Brno', 'Svitavy', 'Praha sever', 'Praha sever 2', 'Plzeň', 'Praha jih', 'Extra'] },
+            { data: 'cash', editor: 'select', selectOptions: ['Ano', 'Ne'] },
         ]
     };
 
