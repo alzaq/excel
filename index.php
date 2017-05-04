@@ -167,6 +167,6 @@
 </html>
 
 <script type="text/javascript" src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-<script type="text/javascript" src="scripts/main.js"></script>
+<script type="text/javascript" src="scripts/main.js?1"></script>
 </body>
 </html>

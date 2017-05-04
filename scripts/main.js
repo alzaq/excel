@@ -51,7 +51,7 @@ $(document).ready(function() {
             { data: 'number', type: 'numeric' },
             { data: 'man_in', editor: 'select', selectOptions: ['Horák', 'Bob', 'Alzaq'] },
             { data: 'man_out', editor: 'select', selectOptions: ['Horák', 'Bob', 'Alzaq'] },
-            { data: 'type', editor: 'select', selectOptions: ['K', 'KV', 'P', 'INV', 'SS', '1m', '2m'] },
+            { data: 'type', editor: 'select', selectOptions: ['K', 'KV', 'P', 'INV', 'SS', 'Servis vlastní WC', 'Meziservis', '1m', '2m'] },
             { data: 'type_true', editor: 'select', selectOptions: ['K', 'B', 'KV', 'BV', 'P', 'INV', 'SS', '1m', '2m'] },
             { data: 'city', type: 'text' },
             { data: 'trace', type: 'text' },
